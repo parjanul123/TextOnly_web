@@ -17,8 +17,9 @@ public class MessageController {
         return messageService.sendMessage(message);
     }
 
+    // This endpoint is deprecated - use MessageApiController instead
     @GetMapping("/{phoneNumber}")
     public List<Message> getMessages(@PathVariable String phoneNumber) {
-        return messageService.getMessagesForUser(phoneNumber);
+        return List.of(); // Return empty list - use /api/messages endpoints
     }
 }

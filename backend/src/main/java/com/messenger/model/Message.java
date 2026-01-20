@@ -10,12 +10,24 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String from;
-    private String to;
-    private String content;
-    private LocalDateTime timestamp;
+    @ManyToOne
+    @JoinColumn(name = "sender_id", nullable = false)
+    private User sender;
 
-    // Message type: TEXT, FILE, INVITE, GIFT
+    @ManyToOne
+    @JoinColumn(name = "receiver_id", nullable = false)
+    private User receiver;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String content;
+    
+    @Column(name = "is_read")
+    private Boolean isRead = false;
+    
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
+
+    // Message type: TEXT, FILE, INVITE, GIFT, EMOTE
     private String type = "TEXT";
 
     // File message fields
@@ -37,17 +49,29 @@ public class Message {
     private Integer giftValue;
     private String giftResource;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public String getFrom() { return from; }
-    public void setFrom(String from) { this.from = from; }
-    public String getTo() { return to; }
-    public void setTo(String to) { this.to = to; }
+    
+    public User getSender() { return sender; }
+    public void setSender(User sender) { this.sender = sender; }
+    
+    public User getReceiver() { return receiver; }
+    public void setReceiver(User receiver) { this.receiver = receiver; }
+    
     public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
-    public LocalDateTime getTimestamp() { return timestamp; }
-    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+    
+    public Boolean getIsRead() { return isRead; }
+    public void setIsRead(Boolean isRead) { this.isRead = isRead; }
+    
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }

@@ -10,7 +10,7 @@ self.addEventListener('fetch', event => {
           'Authorization': 'Bearer YOUR_OPENAI_API_KEY' // Înlocuiește cu cheia ta!
         },
         body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
+          model: 'gpt-5',
           messages: [{ role: 'user', content: 'Hello from Service Worker!' }]
         })
       })
